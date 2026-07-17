@@ -1,10 +1,10 @@
 {
-  "name": "HayGroup Kasir & Keuangan",
+  "name": "HayGroup - Kasir & Keuangan",
   "short_name": "HayGroup",
-  "description": "Aplikasi POS dan Keuangan Terintegrasi",
+  "description": "Sistem POS & Akuntansi Terintegrasi untuk HayBike, HayPop, HayMotret",
   "start_url": "/index.html",
   "display": "standalone",
-  "background_color": "#090C15",
+  "background_color": "#0F172A",
   "theme_color": "#F59E0B",
   "icons": [
     {
