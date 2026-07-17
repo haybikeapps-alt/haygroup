@@ -2,9 +2,12 @@
 import { supabase } from './supabaseClient.js';
 import * as POS from './modules/pos.js';
 
+// js/app.js - bagian Service Worker
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').catch(err => console.error(err));
+    navigator.serviceWorker.register('/haygroup/sw.js') // Tambahkan path repo
+      .then(reg => console.log('✅ Service Worker terdaftar'))
+      .catch(err => console.error('❌ Gagal daftar SW:', err);
   });
 }
 
