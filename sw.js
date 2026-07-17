@@ -1,9 +1,7 @@
-// sw.js
 const CACHE_NAME = 'haygroup-cache-v1';
 const urlsToCache = [
-  '/index.html',
-  '/css/style.css',
-  '/js/app.js'
+  '/',
+  '/index.html'
 ];
 
 self.addEventListener('install', event => {
