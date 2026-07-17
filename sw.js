@@ -1,7 +1,12 @@
+// sw.js
 const CACHE_NAME = 'haygroup-cache-v1';
+const BASE_PATH = '/haygroup'; // Nama repo Anda
+
 const urlsToCache = [
-  '/',
-  '/index.html'
+  `${BASE_PATH}/`,
+  `${BASE_PATH}/index.html`,
+  `${BASE_PATH}/css/style.css`,
+  `${BASE_PATH}/js/app.js`
 ];
 
 self.addEventListener('install', event => {
