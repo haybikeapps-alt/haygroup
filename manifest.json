@@ -1,0 +1,21 @@
+{
+  "name": "HayGroup Kasir & Keuangan",
+  "short_name": "HayGroup",
+  "description": "Aplikasi POS dan Keuangan Terintegrasi",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#090C15",
+  "theme_color": "#F59E0B",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
