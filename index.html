@@ -3,21 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HayGroup - POS & Finance</title>
+    <title>HayGroup System</title>
+    
+    <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#F59E0B">
+    
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="bg-gray-900 text-white font-sans">
-    
-    <div id="app">
-        <!-- Konten akan di-render oleh JavaScript di sini -->
-        <div class="flex items-center justify-center h-screen">
-            <p class="text-xl text-yellow-400 font-bold">Memuat HayGroup System...</p>
+<body class="bg-slate-900 text-slate-200 font-sans overflow-hidden">
+
+    <!-- App Shell -->
+    <div id="app" class="h-screen flex flex-col">
+        <div class="flex items-center justify-center h-full">
+            <div class="text-center">
+                <div class="w-16 h-16 border-4 border-amber-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                <h1 class="text-2xl font-bold text-amber-400">HayGroup System</h1>
+                <p class="text-slate-400 mt-2">Memuat modul...</p>
+            </div>
         </div>
     </div>
 
+    <!-- Main JS Entry Point (Type Module untuk import/export) -->
     <script type="module" src="js/app.js"></script>
 </body>
 </html>
