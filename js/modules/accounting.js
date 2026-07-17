@@ -1,193 +1,119 @@
-// js/modules/accounting.js
 import { supabase } from '../supabaseClient.js';
 
-/**
- * ENGINE AKUNTANSI DOUBLE-ENTRY (STANDAR IAI/PSAK)
- * Modul ini bertanggung jawab untuk:
- * 1. Posting Jurnal (memastikan Debit = Kredit)
- * 2. Menghitung Saldo Akun (Buku Besar)
- * 3. Menghasilkan Laporan Keuangan (Laba Rugi & Neraca)
- */
-
-// Fungsi utama untuk mencatat jurnal
-export async function postJournal(date, description, entries, transactionId = null) {
-    let totalDebit = 0;
-    let totalCredit = 0;
-
-    // 1. Validasi Keseimbangan (Debit HARUS sama dengan Kredit)
-    entries.forEach(entry => {
-        totalDebit += entry.debit || 0;
-        totalCredit += entry.credit || 0;
-    });
-
-    if (totalDebit !== totalCredit) {
-        throw new Error(`Jurnal tidak seimbang! Debit: ${totalDebit}, Kredit: ${totalCredit}`);
+export async function postJournal(date, description, entries, transactionId) {
+    var totalDebit = 0;
+    var totalCredit = 0;
+    for (var i = 0; i < entries.length; i++) {
+        totalDebit += entries[i].debit || 0;
+        totalCredit += entries[i].credit || 0;
     }
-
-    // 2. Simpan ke Database Supabase
+    if (totalDebit !== totalCredit) {
+        throw new Error('Jurnal tidak seimbang! Debit: ' + totalDebit + ', Kredit: ' + totalCredit);
+    }
     try {
-        // Step A: Simpan Header Jurnal
-        const { data: journalData, error: journalError } = await supabase
-            .from('journals')
-            .insert({
-                date: date,
-                description: description,
-                transaction_id: transactionId
-            })
-            .select('id')
-            .single();
-
-        if (journalError) throw journalError;
-        const journalId = journalData.id;
-
-        // Step B: Persiapkan Detail Jurnal (tambahkan journal_id)
-        const journalEntries = entries.map(entry => ({
-            journal_id: journalId,
-            account_code: entry.code,
-            debit: entry.debit || 0,
-            credit: entry.credit || 0
-        }));
-
-        // Step C: Simpan Detail Jurnal
-        const { error: entriesError } = await supabase
-            .from('journal_entries')
-            .insert(journalEntries);
-
-        if (entriesError) throw entriesError;
-
+        var result = await supabase.from('journals').insert({
+            date: date, description: description, transaction_id: transactionId || null
+        }).select('id').single();
+        if (result.error) throw result.error;
+        var journalId = result.data.id;
+        var journalEntries = [];
+        for (var i = 0; i < entries.length; i++) {
+            journalEntries.push({
+                journal_id: journalId,
+                account_code: entries[i].code,
+                debit: entries[i].debit || 0,
+                credit: entries[i].credit || 0
+            });
+        }
+        var res = await supabase.from('journal_entries').insert(journalEntries);
+        if (res.error) throw res.error;
         return { success: true, journalId: journalId };
-
     } catch (error) {
-        console.error("Gagal posting jurnal:", error);
+        console.error('Gagal posting jurnal:', error);
         throw error;
     }
 }
 
-// Fungsi untuk menghitung saldo satu akun (Buku Besar)
 export async function getAccountBalance(accountCode) {
     try {
-        // Ambil info akun (apakah normalnya Debit atau Kredit)
-        const { data: accountData, error: accError } = await supabase
-            .from('accounts')
-            .select('is_debit')
-            .eq('code', accountCode)
-            .single();
-
-        if (accError) throw accError;
-
-        // Hitung total Debit dan Kredit dari jurnal
-        const { data: entries, error: entryError } = await supabase
-            .from('journal_entries')
-            .select('debit, credit')
-            .eq('account_code', accountCode);
-
-        if (entryError) throw entryError;
-
-        let totalDebit = 0;
-        let totalCredit = 0;
-        entries.forEach(e => {
-            totalDebit += e.debit;
-            totalCredit += e.credit;
-        });
-
-        // Hitung Saldo berdasarkan sisi normal akun
-        if (accountData.is_debit) {
-            return totalDebit - totalCredit; // Aset & Beban
-        } else {
-            return totalCredit - totalDebit; // Kewajiban, Ekuitas, Pendapatan
+        var res1 = await supabase.from('accounts').select('is_debit').eq('code', accountCode).single();
+        if (res1.error) throw res1.error;
+        var isDebit = res1.data.is_debit;
+        var res2 = await supabase.from('journal_entries').select('debit, credit').eq('account_code', accountCode);
+        if (res2.error) throw res2.error;
+        var totalDebit = 0;
+        var totalCredit = 0;
+        for (var i = 0; i < res2.data.length; i++) {
+            totalDebit += res2.data[i].debit;
+            totalCredit += res2.data[i].credit;
         }
+        return isDebit ? (totalDebit - totalCredit) : (totalCredit - totalDebit);
     } catch (error) {
-        console.error("Gagal menghitung saldo:", error);
+        console.error('Gagal menghitung saldo:', error);
         return 0;
     }
 }
 
-// Fungsi untuk generate Laporan Laba Rugi
 export async function getIncomeStatement() {
     try {
-        // Ambil saldo akun Pendapatan (4xxx)
-        const { data: revenues } = await supabase.from('accounts').select('code, name').like('code', '4%');
-        const { data: expenses } = await supabase.from('accounts').select('code, name').like('code', '5%');
-
-        let totalRevenue = 0;
-        const revenueDetails = [];
-
-        for (let rev of revenues) {
-            const balance = await getAccountBalance(rev.code);
+        var res1 = await supabase.from('accounts').select('code, name').like('code', '4%');
+        var res2 = await supabase.from('accounts').select('code, name').like('code', '5%');
+        var totalRevenue = 0;
+        var revenueDetails = [];
+        for (var i = 0; i < res1.data.length; i++) {
+            var balance = await getAccountBalance(res1.data[i].code);
             if (balance > 0) {
-                revenueDetails.push({ ...rev, balance });
+                revenueDetails.push({ code: res1.data[i].code, name: res1.data[i].name, balance: balance });
                 totalRevenue += balance;
             }
         }
-
-        let totalExpense = 0;
-        const expenseDetails = [];
-
-        for (let exp of expenses) {
-            const balance = await getAccountBalance(exp.code);
+        var totalExpense = 0;
+        var expenseDetails = [];
+        for (var i = 0; i < res2.data.length; i++) {
+            var balance = await getAccountBalance(res2.data[i].code);
             if (balance > 0) {
-                expenseDetails.push({ ...exp, balance });
+                expenseDetails.push({ code: res2.data[i].code, name: res2.data[i].name, balance: balance });
                 totalExpense += balance;
             }
         }
-
-        const netIncome = totalRevenue - totalExpense;
-
         return {
-            revenues: revenueDetails,
-            totalRevenue,
-            expenses: expenseDetails,
-            totalExpense,
-            netIncome
+            revenues: revenueDetails, totalRevenue: totalRevenue,
+            expenses: expenseDetails, totalExpense: totalExpense,
+            netIncome: totalRevenue - totalExpense
         };
-    } catch (error) {
-        console.error("Gagal membuat Laba Rugi:", error);
-    }
+    } catch (error) { console.error('Gagal membuat Laba Rugi:', error); }
 }
 
-// Fungsi untuk generate Neraca (Balance Sheet)
 export async function getBalanceSheet() {
     try {
-        const { data: assets } = await supabase.from('accounts').select('code, name').like('code', '1%');
-        const { data: liabilities } = await supabase.from('accounts').select('code, name').like('code', '2%');
-        const { data: equities } = await supabase.from('accounts').select('code, name').like('code', '3%');
-
-        let totalAsset = 0;
-        const assetDetails = [];
-        for (let a of assets) {
-            const balance = await getAccountBalance(a.code);
-            if (balance > 0) { assetDetails.push({ ...a, balance }); totalAsset += balance; }
+        var res1 = await supabase.from('accounts').select('code, name').like('code', '1%');
+        var res2 = await supabase.from('accounts').select('code, name').like('code', '2%');
+        var res3 = await supabase.from('accounts').select('code, name').like('code', '3%');
+        var totalAsset = 0; var assetDetails = [];
+        for (var i = 0; i < res1.data.length; i++) {
+            var b = await getAccountBalance(res1.data[i].code);
+            if (b > 0) { assetDetails.push({ code: res1.data[i].code, name: res1.data[i].name, balance: b }); totalAsset += b; }
         }
-
-        let totalLiability = 0;
-        const liabilityDetails = [];
-        for (let l of liabilities) {
-            const balance = await getAccountBalance(l.code);
-            if (balance > 0) { liabilityDetails.push({ ...l, balance }); totalLiability += balance; }
+        var totalLiability = 0; var liabilityDetails = [];
+        for (var i = 0; i < res2.data.length; i++) {
+            var b = await getAccountBalance(res2.data[i].code);
+            if (b > 0) { liabilityDetails.push({ code: res2.data[i].code, name: res2.data[i].name, balance: b }); totalLiability += b; }
         }
-
-        let totalEquity = 0;
-        const equityDetails = [];
-        for (let e of equities) {
-            const balance = await getAccountBalance(e.code);
-            if (balance > 0) { equityDetails.push({ ...e, balance }); totalEquity += balance; }
+        var totalEquity = 0; var equityDetails = [];
+        for (var i = 0; i < res3.data.length; i++) {
+            var b = await getAccountBalance(res3.data[i].code);
+            if (b > 0) { equityDetails.push({ code: res3.data[i].code, name: res3.data[i].name, balance: b }); totalEquity += b; }
         }
-
-        // Tambahkan Laba Berjalan ke Ekuitas
-        const incomeStatement = await getIncomeStatement();
+        var incomeStatement = await getIncomeStatement();
         totalEquity += incomeStatement.netIncome;
-
-        const totalPassiva = totalLiability + totalEquity;
-
+        var totalPassiva = totalLiability + totalEquity;
         return {
-            assets: assetDetails, totalAsset,
-            liabilities: liabilityDetails, totalLiability,
-            equities: equityDetails, totalEquity,
+            assets: assetDetails, totalAsset: totalAsset,
+            liabilities: liabilityDetails, totalLiability: totalLiability,
+            equities: equityDetails, totalEquity: totalEquity,
             netIncome: incomeStatement.netIncome,
-            totalPassiva,
-            isBalanced: totalAsset === totalPassiva // Validasi Neraca
+            totalPassiva: totalPassiva,
+            isBalanced: totalAsset === totalPassiva
         };
-    } catch (error) {
-        console.error("Gagal membuat Neraca:", error);
-    }
-}
+    } catch (error) { console.error('Gagal membuat Neraca:', error); }
+} 
