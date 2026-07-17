@@ -149,3 +149,9 @@ export async function checkout(paymentMethod = 'tunai') {
         throw error;
     }
 }
+// Tambahkan ini di paling bawah file pos.js
+
+// Ambil data keranjang saat ini untuk di-render UI
+export function getCart() {
+    return cart;
+}
