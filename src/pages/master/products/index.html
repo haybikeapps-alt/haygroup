@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Produk — HayGroup</title>
+  <link rel="stylesheet" href="/src/styles/main.css" />
+</head>
+<body>
+  <div class="hg-layout">
+    <aside class="hg-sidebar" id="sidebar"></aside>
+    <main class="hg-main">
+      <div class="hg-topbar">
+        <h1>Produk</h1>
+        <button class="hg-btn hg-btn--accent" id="newBtn">+ Produk Baru</button>
+      </div>
+
+      <div class="hg-card">
+        <div class="hg-grid-2" style="margin-bottom:14px">
+          <select class="hg-select" id="storeFilter"></select>
+          <select class="hg-select" id="categoryFilter"><option value="">Semua Kategori</option></select>
+        </div>
+        <table class="hg-table">
+          <thead><tr><th>Nama</th><th>Kategori</th><th>Tipe</th><th>Harga</th><th>Stok</th><th>Status</th><th></th></tr></thead>
+          <tbody id="productRows"><tr><td colspan="7">Memuat...</td></tr></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal form -->
+  <dialog id="productModal" style="border:none; border-radius:12px; padding:0; width:480px; max-width:92vw">
+    <form id="productForm" style="padding:22px">
+      <h3 id="modalTitle" style="margin-top:0">Produk Baru</h3>
+      <input type="hidden" id="productId" />
+      <div class="hg-field"><label class="hg-label">Unit Usaha</label><select class="hg-select" id="fStore" required></select></div>
+      <div class="hg-field"><label class="hg-label">Kategori</label><select class="hg-select" id="fCategory"></select></div>
+      <div class="hg-field"><label class="hg-label">Nama Produk</label><input class="hg-input" id="fName" required /></div>
+      <div class="hg-grid-2">
+        <div class="hg-field"><label class="hg-label">Tipe</label>
+          <select class="hg-select" id="fType"><option value="goods">Barang</option><option value="service">Jasa</option></select>
+        </div>
+        <div class="hg-field"><label class="hg-label">Lacak Stok?</label>
+          <select class="hg-select" id="fTracked"><option value="true">Ya</option><option value="false">Tidak</option></select>
+        </div>
+      </div>
+      <div class="hg-grid-2">
+        <div class="hg-field"><label class="hg-label">Harga Jual</label><input class="hg-input" type="number" id="fPrice" required /></div>
+        <div class="hg-field"><label class="hg-label">Harga Pokok (Modal)</label><input class="hg-input" type="number" id="fCost" /></div>
+      </div>
+      <div class="hg-field"><label class="hg-label">Stok Awal</label><input class="hg-input" type="number" id="fStock" value="0" /></div>
+      <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:18px">
+        <button type="button" class="hg-btn hg-btn--outline" id="closeModalBtn">Batal</button>
+        <button type="submit" class="hg-btn hg-btn--accent">Simpan</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="/src/config.js"></script>
+  <script type="module" src="./products.js"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — HayGroup</title>
+  <link rel="stylesheet" href="/src/styles/main.css" />
+</head>
+<body>
+  <div class="hg-layout">
+    <aside class="hg-sidebar" id="sidebar"></aside>
+    <main class="hg-main">
+      <div class="hg-topbar">
+        <h1>Dashboard</h1>
+        <div id="userInfo" style="color:#64748b; font-size:.85rem"></div>
+      </div>
+
+      <div class="hg-grid-4" id="statCards">
+        <div class="hg-card hg-stat"><div class="hg-stat__value" id="statSalesToday">-</div><div class="hg-stat__label">Penjualan Hari Ini</div></div>
+        <div class="hg-card hg-stat"><div class="hg-stat__value" id="statInvoicesToday">-</div><div class="hg-stat__label">Jumlah Invoice Hari Ini</div></div>
+        <div class="hg-card hg-stat"><div class="hg-stat__value" id="statCash">-</div><div class="hg-stat__label">Saldo Kas (estimasi)</div></div>
+        <div class="hg-card hg-stat"><div class="hg-stat__value" id="statReceivable">-</div><div class="hg-stat__label">Piutang Terbuka</div></div>
+      </div>
+
+      <div class="hg-card">
+        <p class="hg-card__title">Ringkasan Unit Usaha</p>
+        <table class="hg-table" id="storeTable">
+          <thead><tr><th>Unit Usaha</th><th>Transaksi Hari Ini</th><th>Total Penjualan</th></tr></thead>
+          <tbody><tr><td colspan="3">Memuat...</td></tr></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script src="/src/config.js"></script>
+  <script type="module" src="./dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Masuk — HayGroup</title>
+  <link rel="stylesheet" href="/src/styles/main.css" />
+</head>
+<body>
+  <div class="hg-auth-wrap">
+    <form class="hg-auth-card" id="loginForm">
+      <h1>Hay<span style="color:#f97316">Group</span></h1>
+      <p class="sub">Masuk ke Dashboard Manajemen</p>
+
+      <div class="hg-field">
+        <label class="hg-label">Email</label>
+        <input class="hg-input" type="email" id="email" required placeholder="nama@haygroup.id" />
+      </div>
+      <div class="hg-field">
+        <label class="hg-label">Password</label>
+        <input class="hg-input" type="password" id="password" required placeholder="••••••••" />
+      </div>
+      <button class="hg-btn hg-btn--accent" style="width:100%; justify-content:center" type="submit">Masuk</button>
+      <p class="hg-error" id="errorMsg" style="display:none"></p>
+    </form>
+  </div>
+
+  <script src="/src/config.js"></script>
+  <script type="module" src="./login.js"></script>
+</body>
+</html>

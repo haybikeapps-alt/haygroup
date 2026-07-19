@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dapur — HayGroup</title>
+  <link rel="stylesheet" href="/src/styles/main.css" />
+</head>
+<body>
+  <div class="hg-layout">
+    <aside class="hg-sidebar" id="sidebar"></aside>
+    <main class="hg-main">
+      <div class="hg-topbar">
+        <h1>Layar Dapur</h1>
+        <select class="hg-select" id="storeSelect" style="width:220px"></select>
+      </div>
+      <div class="hg-grid-3" id="kitchenBoard">
+        <div class="hg-card"><p class="hg-card__title">Menunggu</p><div id="colPending"></div></div>
+        <div class="hg-card"><p class="hg-card__title">Diproses</p><div id="colPreparing"></div></div>
+        <div class="hg-card"><p class="hg-card__title">Siap Disajikan</p><div id="colReady"></div></div>
+      </div>
+    </main>
+  </div>
+
+  <script src="/src/config.js"></script>
+  <script type="module" src="./kitchen.js"></script>
+</body>
+</html>

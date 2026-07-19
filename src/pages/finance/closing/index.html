@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tutup Buku — HayGroup</title>
+  <link rel="stylesheet" href="/src/styles/main.css" />
+</head>
+<body>
+  <div class="hg-layout">
+    <aside class="hg-sidebar" id="sidebar"></aside>
+    <main class="hg-main">
+      <div class="hg-topbar"><h1>Tutup Buku</h1></div>
+
+      <div class="hg-card">
+        <p class="hg-card__title">Tutup Periode</p>
+        <div class="hg-grid-3" style="align-items:end">
+          <div class="hg-field" style="margin:0"><label class="hg-label">Tahun</label><input class="hg-input" type="number" id="year" /></div>
+          <div class="hg-field" style="margin:0"><label class="hg-label">Bulan</label>
+            <select class="hg-select" id="month">
+              ${Array.from({length:12},(_,i)=>`<option value="${i+1}">${i+1}</option>`).join("")}
+            </select>
+          </div>
+          <button class="hg-btn hg-btn--accent" id="closeBtn">Tutup Buku Periode Ini</button>
+        </div>
+        <p style="font-size:.8rem; color:#94a3b8; margin-top:10px">
+          Pastikan seluruh jurnal periode ini berstatus "posted" (tidak ada draft) sebelum menutup buku.
+        </p>
+      </div>
+
+      <div class="hg-card">
+        <p class="hg-card__title">Riwayat Periode</p>
+        <table class="hg-table">
+          <thead><tr><th>Periode</th><th>Rentang</th><th>Status</th><th></th></tr></thead>
+          <tbody id="rows"><tr><td colspan="4">Memuat...</td></tr></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script src="/src/config.js"></script>
+  <script type="module" src="./closing.js"></script>
+</body>
+</html>

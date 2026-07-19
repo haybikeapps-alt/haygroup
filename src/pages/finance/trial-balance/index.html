@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neraca Saldo — HayGroup</title>
+  <link rel="stylesheet" href="/src/styles/main.css" />
+</head>
+<body>
+  <div class="hg-layout">
+    <aside class="hg-sidebar" id="sidebar"></aside>
+    <main class="hg-main">
+      <div class="hg-topbar">
+        <h1>Neraca Saldo</h1>
+        <div style="display:flex; gap:8px">
+          <input class="hg-input" type="date" id="startDate" style="width:160px" />
+          <input class="hg-input" type="date" id="endDate" style="width:160px" />
+          <button class="hg-btn hg-btn--accent" id="loadBtn">Tampilkan</button>
+        </div>
+      </div>
+      <div class="hg-card" id="output"><p style="color:#94a3b8">Pilih rentang tanggal.</p></div>
+    </main>
+  </div>
+
+  <script src="/src/config.js"></script>
+  <script type="module" src="./trial-balance.js"></script>
+</body>
+</html>

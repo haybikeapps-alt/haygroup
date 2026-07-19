@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit Usaha — HayGroup</title>
+  <link rel="stylesheet" href="/src/styles/main.css" />
+</head>
+<body>
+  <div class="hg-layout">
+    <aside class="hg-sidebar" id="sidebar"></aside>
+    <main class="hg-main">
+      <div class="hg-topbar"><h1>Unit Usaha</h1></div>
+      <div class="hg-card">
+        <table class="hg-table">
+          <thead><tr><th>Nama</th><th>Kode</th><th>Alamat</th><th>Status</th><th></th></tr></thead>
+          <tbody id="rows"><tr><td colspan="5">Memuat...</td></tr></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+  <script src="/src/config.js"></script>
+  <script type="module" src="./stores.js"></script>
+</body>
+</html>

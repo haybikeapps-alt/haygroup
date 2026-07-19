@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Piutang Usaha — HayGroup</title>
+  <link rel="stylesheet" href="/src/styles/main.css" />
+</head>
+<body>
+  <div class="hg-layout">
+    <aside class="hg-sidebar" id="sidebar"></aside>
+    <main class="hg-main">
+      <div class="hg-topbar"><h1>Piutang Usaha</h1></div>
+      <p style="color:#64748b; font-size:.85rem; margin-top:-8px">
+        Piutang tercatat otomatis dari invoice POS dengan pembayaran DP (mis. Hay Motret). Anda juga bisa menambah manual.
+      </p>
+
+      <div class="hg-card">
+        <button class="hg-btn hg-btn--outline hg-btn--sm" id="newBtn" style="margin-bottom:14px">+ Piutang Manual</button>
+        <table class="hg-table">
+          <thead><tr><th>Pelanggan</th><th>Jatuh Tempo</th><th>Total</th><th>Terbayar</th><th>Sisa</th><th>Status</th><th></th></tr></thead>
+          <tbody id="rows"><tr><td colspan="7">Memuat...</td></tr></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <dialog id="newModal" style="border:none; border-radius:12px; padding:0; width:440px; max-width:92vw">
+    <form id="newForm" style="padding:22px">
+      <h3 style="margin-top:0">Piutang Manual</h3>
+      <div class="hg-field"><label class="hg-label">Nama Pelanggan</label><input class="hg-input" id="fCustomerName" required /></div>
+      <div class="hg-field"><label class="hg-label">No. HP</label><input class="hg-input" id="fCustomerPhone" /></div>
+      <div class="hg-grid-2">
+        <div class="hg-field"><label class="hg-label">Tanggal</label><input class="hg-input" type="date" id="fDate" required /></div>
+        <div class="hg-field"><label class="hg-label">Jatuh Tempo</label><input class="hg-input" type="date" id="fDueDate" required /></div>
+      </div>
+      <div class="hg-field"><label class="hg-label">Total Piutang</label><input class="hg-input" type="number" id="fTotal" required /></div>
+      <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:14px">
+        <button type="button" class="hg-btn hg-btn--outline" id="closeNewBtn">Batal</button>
+        <button type="submit" class="hg-btn hg-btn--accent">Simpan</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="payModal" style="border:none; border-radius:12px; padding:0; width:360px; max-width:92vw">
+    <form id="payForm" style="padding:22px">
+      <h3 style="margin-top:0">Terima Pembayaran</h3>
+      <input type="hidden" id="payReceivableId" />
+      <div class="hg-field"><label class="hg-label">Nominal Diterima</label><input class="hg-input" type="number" id="payAmount" required /></div>
+      <div class="hg-field"><label class="hg-label">Metode</label>
+        <select class="hg-select" id="payMethod"><option value="cash">Tunai</option><option value="transfer">Transfer Bank</option></select>
+      </div>
+      <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:14px">
+        <button type="button" class="hg-btn hg-btn--outline" id="closePayBtn">Batal</button>
+        <button type="submit" class="hg-btn hg-btn--accent">Terima</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="/src/config.js"></script>
+  <script type="module" src="./receivables.js"></script>
+</body>
+</html>

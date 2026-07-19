@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jurnal Umum — HayGroup</title>
+  <link rel="stylesheet" href="/src/styles/main.css" />
+</head>
+<body>
+  <div class="hg-layout">
+    <aside class="hg-sidebar" id="sidebar"></aside>
+    <main class="hg-main">
+      <div class="hg-topbar">
+        <h1>Jurnal Umum</h1>
+        <button class="hg-btn hg-btn--accent" id="newBtn">+ Jurnal Manual</button>
+      </div>
+
+      <div class="hg-card">
+        <table class="hg-table">
+          <thead><tr><th>No. Jurnal</th><th>Tanggal</th><th>Keterangan</th><th>Sumber</th><th>Status</th><th></th></tr></thead>
+          <tbody id="rows"><tr><td colspan="6">Memuat...</td></tr></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <dialog id="modal" style="border:none; border-radius:12px; padding:0; width:640px; max-width:94vw">
+    <form id="journalForm" style="padding:22px">
+      <h3 style="margin-top:0">Jurnal Manual</h3>
+      <div class="hg-grid-2">
+        <div class="hg-field"><label class="hg-label">Tanggal</label><input class="hg-input" type="date" id="fDate" required /></div>
+        <div class="hg-field"><label class="hg-label">Referensi</label><input class="hg-input" id="fRef" /></div>
+      </div>
+      <div class="hg-field"><label class="hg-label">Keterangan</label><input class="hg-input" id="fDesc" required /></div>
+
+      <table class="hg-table" style="margin-bottom:10px">
+        <thead><tr><th>Akun</th><th>Debit</th><th>Kredit</th><th></th></tr></thead>
+        <tbody id="lineRows"></tbody>
+      </table>
+      <button type="button" class="hg-btn hg-btn--outline hg-btn--sm" id="addLineBtn">+ Baris</button>
+      <div style="text-align:right; margin-top:10px; font-size:.85rem" id="lineTotals"></div>
+
+      <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:16px">
+        <button type="button" class="hg-btn hg-btn--outline" id="closeBtn">Batal</button>
+        <button type="submit" class="hg-btn hg-btn--accent">Simpan Draft</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="/src/config.js"></script>
+  <script type="module" src="./journals.js"></script>
+</body>
+</html>

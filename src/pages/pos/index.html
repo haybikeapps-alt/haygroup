@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kasir (POS) — HayGroup</title>
+  <link rel="stylesheet" href="/src/styles/main.css" />
+</head>
+<body>
+  <div class="hg-layout">
+    <aside class="hg-sidebar" id="sidebar"></aside>
+    <main class="hg-main">
+      <div class="hg-topbar">
+        <h1>Kasir (POS)</h1>
+        <select class="hg-select" id="storeSelect" style="width:220px"></select>
+      </div>
+
+      <div class="hg-pos">
+        <div class="hg-pos__catalog">
+          <div class="hg-pos__tabs" id="categoryTabs"></div>
+          <div class="hg-pos__products" id="productGrid"><p>Memuat produk...</p></div>
+        </div>
+
+        <div class="hg-cart">
+          <div class="hg-card__title" style="padding:14px 14px 0">Keranjang</div>
+          <div class="hg-cart__items" id="cartItems"><p style="color:#94a3b8; font-size:.85rem; padding:0 14px">Belum ada item.</p></div>
+          <div class="hg-cart__footer">
+            <div class="hg-field">
+              <label class="hg-label">Tipe Pesanan</label>
+              <select class="hg-select" id="orderType">
+                <option value="takeaway">Bawa Pulang</option>
+                <option value="dine_in">Makan di Tempat</option>
+                <option value="delivery">Delivery</option>
+                <option value="service">Jasa / Servis</option>
+              </select>
+            </div>
+            <div class="hg-cart__row"><span>Subtotal</span><span id="sumSubtotal">Rp0</span></div>
+            <div class="hg-cart__row"><span>Diskon</span><span id="sumDiscount">Rp0</span></div>
+            <div class="hg-cart__row"><span>Pajak</span><span id="sumTax">Rp0</span></div>
+            <div class="hg-cart__row hg-cart__total"><span>Total</span><span id="sumTotal">Rp0</span></div>
+
+            <div class="hg-field">
+              <label class="hg-label">Metode Pembayaran</label>
+              <select class="hg-select" id="paymentMethod">
+                <option value="cash">Tunai</option>
+                <option value="qris">QRIS (Xendit)</option>
+                <option value="transfer">Transfer Bank</option>
+              </select>
+            </div>
+            <div class="hg-field" id="cashPaidWrap">
+              <label class="hg-label">Uang Diterima</label>
+              <input class="hg-input" type="number" id="cashPaid" placeholder="0" />
+            </div>
+
+            <button class="hg-btn hg-btn--accent" style="width:100%; justify-content:center" id="checkoutBtn">Bayar & Selesaikan</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="/src/config.js"></script>
+  <script type="module" src="./pos.js"></script>
+</body>
+</html>

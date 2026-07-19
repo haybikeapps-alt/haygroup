@@ -1,0 +1,21 @@
+project_id = "haygroup"
+
+[api]
+enabled = true
+port = 54321
+
+[db]
+port = 54322
+
+[studio]
+enabled = true
+port = 54323
+
+[auth]
+enabled = true
+site_url = "http://localhost:5173"
+
+# CATATAN: Custom Access Token Hook (agar JWT berisi app_roles/app_permissions/store_ids)
+# diaktifkan lewat Dashboard -> Authentication -> Hooks -> "Customize Access Token (JWT) Claims"
+# dan arahkan ke Edge Function `auth-token-hook`. Untuk dev lokal dengan `supabase start`,
+# lihat dokumentasi Supabase CLI terbaru mengenai auth hooks lokal (fitur ini berkembang cepat).
